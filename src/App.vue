@@ -21,23 +21,7 @@ export default {
   },
   data() {
     return {
-      todos: [
-        {
-          id: 1,
-          title: "Todo One",
-          completed: false
-        },
-        {
-          id: 2,
-          title: "Todo Two",
-          completed: false
-        },
-        {
-          id: 3,
-          title: "Todo Three",
-          completed: false
-        }
-      ]
+      todos: []
     }
   },
   methods: {
@@ -45,10 +29,28 @@ export default {
       this.todos = this.todos.filter( todo => todo.id !== id)
     }, 
     addTodo(newTodo) {
-      this.todos = [...this.todos, newTodo];
-    }
-  }
+      const { title, completed } = newTodo;
 
+      fetch('https://jsonplaceholder.typicode.com/todos', {
+          method: 'POST',
+          body: JSON.stringify({
+            title: title,
+            completed: completed
+          })
+        })
+        .then(response => response.json())
+        .then(newTodo => this.todos = [...this.todos, newTodo])
+        .catch(err => console.log(err))
+      
+      // jsonplaceholder gives you an id when you make a post request and create a resource
+    }
+  },
+  created() {
+    fetch('https://jsonplaceholder.typicode.com/todos?_limit=10')
+      .then(res => res.json())
+      .then(json => this.todos = json)
+      .catch(err => console.log(err))
+  }
 }
 </script>
 

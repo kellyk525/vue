@@ -8,7 +8,7 @@
 </template>
 
 <script>
-    const uuidv4 = require('uuid/v4');
+    // const uuidv4 = require('uuid/v4');
     
     export default {
         name: "AddTodo",
@@ -18,14 +18,18 @@
             }
         },
         methods: {
-            addTodo() {
+            addTodo(e) {
+                e.preventDefault();
+                // We don't want to event to actually try to submit to a file
+                // Stop default behavior, create todo, and emit the event
                 const newTodo = {
-                    id: uuidv4,
                     title: this.title,
                     completed: false
                 }
 
                 this.$emit('add-todo', newTodo)
+
+                this.title = '';
             }
         }
     }
@@ -33,7 +37,7 @@
 
 <style scoped>
     form {
-        display: flex;
+        display: flex; 
     }
 
     input[type="text"] {
