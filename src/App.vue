@@ -36,10 +36,13 @@ export default {
           body: JSON.stringify({
             title: title,
             completed: completed
-          })
+          }),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8"
+          }
         })
         .then(response => response.json())
-        .then(newTodo => this.todos = [...this.todos, newTodo])
+        .then(newTodo => this.todos = [...this.todos, newTodo], console.log("Kelly"))
         .catch(err => console.log(err))
       
       // jsonplaceholder gives you an id when you make a post request and create a resource
